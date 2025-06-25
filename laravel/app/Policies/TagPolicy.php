@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PostPolicy
+class TagPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_post');
+        return $user->can('view_any_tag');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Post $post): bool
+    public function view(User $user, Tag $tag): bool
     {
-        return $user->can('view_post');
+        return $user->can('view_tag');
     }
 
     /**
@@ -31,25 +31,23 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_post');
+        return $user->can('create_tag');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Post $post): bool
+    public function update(User $user, Tag $tag): bool
     {
-        return $user->can('update_post') && ($user->id == $post->user_id || 
-                                                $user->hasRole('super_admin'));
+        return $user->can('update_tag');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Post $post): bool
+    public function delete(User $user, Tag $tag): bool
     {
-        return $user->can('delete_post') && ($user->id == $post->user_id || 
-                                                $user->hasRole('super_admin'));
+        return $user->can('delete_tag');
     }
 
     /**
@@ -57,13 +55,13 @@ class PostPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->hasRole('super_admin');
+        return $user->can('delete_any_tag');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Post $post): bool
+    public function forceDelete(User $user, Tag $tag): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -79,7 +77,7 @@ class PostPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Post $post): bool
+    public function restore(User $user, Tag $tag): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -95,7 +93,7 @@ class PostPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Post $post): bool
+    public function replicate(User $user, Tag $tag): bool
     {
         return $user->can('{{ Replicate }}');
     }
@@ -105,10 +103,6 @@ class PostPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_post');
-    }
-
-    public function publish(User $user){
-        return $user->can('publish_post');
+        return $user->can('reorder_tag');
     }
 }

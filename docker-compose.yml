@@ -3,34 +3,37 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: praktekpab-container
+    container_name: app-praktekpab
     volumes:
       - ./laravel:/var/www/html
+    ports:
+      - "8080:8000"
+    command: php artisan serve --host=0.0.0.0
     networks:
       - app-bridge
 
-  webserver:
-    image: nginx:stable-alpine
-    container_name: nginx-container
-    ports:
-      - "8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf   # Menyambungkan file konfigurasi Nginx
-      - ./laravel:/var/www/html   # Menyambungkan folder app ke dalam container
-    depends_on:
-      - app   # Nginx harus menunggu app (PHP-FPM) siap
-    networks:
-      - app-bridge
+  # webserver:
+  #   image: nginx:stable-alpine
+  #   container_name: nginx-container
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/conf.d/default.conf   # Menyambungkan file konfigurasi Nginx
+  #     - ./laravel:/var/www/html   # Menyambungkan folder app ke dalam container
+  #   depends_on:
+  #     - app   # Nginx harus menunggu app (PHP-FPM) siap
+  #   networks:
+  #     - app-bridge
 
   npm:
     image: node:20.17.0
-    container_name: node-container
+    container_name: node-praktekpab
     ports:
       - "5173:5173"
     volumes:
       - ./laravel:/var/www/html
     working_dir: /var/www/html
-    command: npm install && npm run dev
+    command: npm run dev
     depends_on:
       - app   # Nginx harus menunggu app (PHP-FPM) siap
     networks:

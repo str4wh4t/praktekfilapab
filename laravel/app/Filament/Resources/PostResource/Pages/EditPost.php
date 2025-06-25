@@ -17,4 +17,14 @@ class EditPost extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getFormActions(): array
+    {
+        return [
+            ...parent::getFormActions(),
+            Actions\Action::make('publish')
+                ->color('success')
+                ->icon('heroicon-o-arrow-top-right-on-square'),
+        ];
+    }
 }

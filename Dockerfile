@@ -11,8 +11,9 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libicu-dev \
+    libexif-dev \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl pdo pdo_mysql gd zip
+    && docker-php-ext-install intl pdo pdo_mysql zip gd exif
 
 # Install Composer (untuk mengelola dependensi PHP)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
