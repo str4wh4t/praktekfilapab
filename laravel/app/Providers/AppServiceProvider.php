@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Post;
 use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         // Gate::policy(Post::class, PostPolicy::class);
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
